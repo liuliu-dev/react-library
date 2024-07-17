@@ -97,9 +97,3 @@ jobs:
         with:
           tag_name: ${{ github.event.inputs.package }}-v${{ needs.format-version.outputs.version }}
           release_name: ${{ github.event.inputs.package }}-v${{ needs.format-version.outputs.version }}
- 
-      - name: Publish to npm
-        run: npm publish
-        working-directory: packages/${{ github.event.inputs.package }} 
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
