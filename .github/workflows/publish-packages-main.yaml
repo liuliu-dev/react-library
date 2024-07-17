@@ -130,5 +130,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          body: ${{ steps.changelog.outputs.changelog }}
           tag_name: ${{ github.event.inputs.package }}-v${{ needs.format-version.outputs.version }}
           release_name: ${{ github.event.inputs.package }}-v${{ needs.format-version.outputs.version }}
