@@ -13,3 +13,5 @@ or
 ```
 % npm install @dolthub/react-contexts
 ```
+
+test change in contexts
