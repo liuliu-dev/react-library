@@ -27,5 +27,3 @@ function MyComponent() {
   return <div>Home</div>;
 }
 ```
-
-test change in hooks
