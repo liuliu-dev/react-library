@@ -65,29 +65,9 @@ jobs:
             {
               "categories": [
                   {
-                      "title": "## 🚀 components",
+                      "title": "## ${{ github.event.inputs.package }}",
                       "labels": [
-                          "components"
-                      ]
-                  },
-                  {
-                      "title": "## 🐛 Fixes",
-                      "labels": [
-                          "fix"
-                      ]
-                  },
-                  {
-                      "key": "tests",
-                      "title": "## 🧪 Tests",
-                      "labels": [
-                          "test"
-                      ]
-                  },
-                  {
-                      "title": "## 🧪 Tests and some 🪄 Magic",
-                      "labels": [
-                          "test",
-                          "components"
+                          "${{ github.event.inputs.package }}"
                       ],
                       "exhaustive": true,
                       "exhaustive_rules": "false",
@@ -111,24 +91,6 @@ jobs:
               "template": "#{{CHANGELOG}}\n\n<details>\n<summary>Uncategorized</summary>\n\n#{{UNCATEGORIZED}}\n</details>",
               "pr_template": "- #{{TITLE}}\n   - PR: ##{{NUMBER}}",
               "empty_template": "- no changes",
-              "label_extractor": [
-                  {
-                      "pattern": "(.) (.+)",
-                      "target": "$1",
-                      "flags": "gu"
-                  },
-                  {
-                      "pattern": "\\[Issue\\]",
-                      "on_property": "title",
-                      "method": "match"
-                  }
-              ],
-              "transformers": [
-                  {
-                      "pattern": "[\\-\\*] (\\[(...|TEST|CI|SKIP)\\])( )?(.+?)\n(.+?[\\-\\*] )(.+)",
-                      "target": "- $4\n  - $6"
-                  }
-              ],
               "max_tags_to_fetch": 200,
               "max_back_track_time_days": 365,
               "tag_resolver": {
@@ -139,7 +101,7 @@ jobs:
                   }
               },
               "base_branches": [
-                  "dev"
+                  "main"
               ]
             }
         env:
