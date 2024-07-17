@@ -76,6 +76,8 @@ jobs:
                       "labels": [
                           "${{ github.event.inputs.package }}"
                       ],
+                      "exhaustive": true,
+                      "exhaustive_rules": "false",
                       "empty_content": "- no matching PRs",
                       "rules": [
                           {
@@ -96,6 +98,15 @@ jobs:
               "template": "#{{CHANGELOG}}\n",
               "pr_template": "- [#{{TITLE}}](#{{URL}})\n",
               "empty_template": "- no changes",
+              "max_tags_to_fetch": 200,
+              "max_back_track_time_days": 365,
+              "tag_resolver": {
+                  "method": "semver",
+                  "filter": {
+                      "pattern": "${{ github.event.inputs.package }}-(.+)",
+                      "flags": "gu"
+                  }
+              },
               "base_branches": [
                   "main"
               ],
