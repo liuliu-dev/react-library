@@ -111,7 +111,7 @@ jobs:
       
       - name: Print changelog
         run: |
-          echo "${ steps.changelog.outputs.changelog }""
+          echo "${ steps.changelog.outputs.changelog }"
 
       - name: Add and Commit Changes
         uses: EndBug/add-and-commit@v9.1.1
