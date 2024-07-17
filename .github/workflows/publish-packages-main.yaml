@@ -96,18 +96,10 @@ jobs:
               "template": "#{{CHANGELOG}}\n",
               "pr_template": "- [#{{TITLE}}](#{{URL}})\n",
               "empty_template": "- no changes",
-              "tag_resolver": {
-                  "method": "semver",
-                  "filter": {
-                      "pattern": "${{ github.event.inputs.package }}-(.+)",
-                      "flags": "gu"
-                  }
-              },
               "base_branches": [
                   "main"
               ],
-              "fromTag": "${{ env.LAST_TAG }}",
-              "toTag": "${{ github.event.inputs.package }}-v${{ needs.format-version.outputs.version }}"
+              "fromTag": "${{ env.LAST_TAG }}"
             }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
