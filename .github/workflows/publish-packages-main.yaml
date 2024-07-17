@@ -56,6 +56,16 @@ jobs:
         env:
           FILE: ${{ github.workspace }}/packages/${{ github.event.inputs.package }}/package.json
           NEW_VERSION: ${{ github.event.inputs.version }}
+      - name: Determine and Set Tags
+        run: |
+          # Find the last two tags that match the package pattern, sort them to get the latest and second latest
+          TAGS=$(git tag | grep "^${{ github.event.inputs.package }}-v" | sort -rV | head -n 2)
+          LAST_TAG=$(echo "$TAGS" | sed -n '2p')
+          CURRENT_TAG=$(echo "$TAGS" | sed -n '1p')
+          echo "LAST_TAG=${LAST_TAG}"
+          echo "CURRENT_TAG=${CURRENT_TAG}"
+          echo "LAST_TAG=${LAST_TAG}" >> $GITHUB_ENV
+          echo "CURRENT_TAG=${CURRENT_TAG}" >> $GITHUB_ENV
       
       - name: Generate Changelog
         id: changelog
@@ -102,7 +112,9 @@ jobs:
               },
               "base_branches": [
                   "main"
-              ]
+              ],
+              "fromTag": "${{ env.LAST_TAG }}",
+              "toTag": "${{ env.CURRENT_TAG }}"
             }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
