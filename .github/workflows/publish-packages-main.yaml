@@ -108,10 +108,6 @@ jobs:
           fromTag: "${{ env.LAST_TAG }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Print changelog
-        run: |
-          echo "${ steps.changelog.outputs.changelog }"
 
       - name: Add and Commit Changes
         uses: EndBug/add-and-commit@v9.1.1
