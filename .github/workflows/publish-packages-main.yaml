@@ -66,15 +66,22 @@ jobs:
               "template": "#{{CHANGELOG}}",
               "pr_template": "- #{{TITLE}}\n - PR: ##{{NUMBER}}",
               "empty_template": "- no changes",
-               "categories": [
+               "categories": 
+               [
                 {
-                  "pattern": "${{ github.event.inputs.package }}",
-                  "on_property": "labels",
-                },
-                {
-                  "pattern": "merged",
-                  "on_property": "status",
-              ],
+                "rules":
+                  [
+                    {
+                      "pattern": "${{ github.event.inputs.package }}",
+                      "on_property": "labels",
+                    },
+                    {
+                      "pattern": "merged",
+                      "on_property": "status",
+                    }
+                  ]
+                  }
+                ],
               "tag_resolver":{
                 "filter": {
                     "pattern": "${{ github.event.inputs.package }}-(.+)",
