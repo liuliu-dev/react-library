@@ -56,9 +56,10 @@ jobs:
         env:
           FILE: ${{ github.workspace }}/packages/${{ github.event.inputs.package }}/package.json
           NEW_VERSION: ${{ github.event.inputs.version }}
+
       - name: Determine and Set Tag
         run: |
-          # Find the last two tags that match the package pattern, sort them to get the latest and second latest
+          # Find the last two tags that match the package pattern, sort them to get the latest 
           TAGS=$(git tag | grep "^${{ github.event.inputs.package }}-v" | sort -rV | head -n 1)
           LAST_TAG=$(echo "$TAGS" | sed -n '1p')
           echo "LAST_TAG=${LAST_TAG}"
@@ -108,8 +109,7 @@ jobs:
               },
               "base_branches": [
                   "main"
-              ],
-              "fromTag": "${{ env.LAST_TAG }}"
+              ]
             }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
