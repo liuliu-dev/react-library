@@ -104,7 +104,7 @@ jobs:
               "tag_resolver": {
                   "method": "semver",
                   "filter": {
-                      "pattern": "${{ github.event.inputs.package }}-(.+)",
+                      "pattern": "${{ env.LAST_TAG }}",
                       "flags": "gu"
                   }
               },
@@ -114,7 +114,11 @@ jobs:
             }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+      
+      - name: Print changelog
+        run: |
+          echo "${ steps.changelog.outputs.changelog }""
+
       - name: Add and Commit Changes
         uses: EndBug/add-and-commit@v9.1.1
         with:
