@@ -13,3 +13,5 @@ or
 ```
 % npm install @dolthub/react-components
 ```
+
+test a change in components
