@@ -56,14 +56,14 @@ jobs:
         env:
           FILE: ${{ github.workspace }}/packages/${{ github.event.inputs.package }}/package.json
           NEW_VERSION: ${{ github.event.inputs.version }}
-
-      - name: Determine and Set Tag
+      - name: Determine and Set Tags
         run: |
-          # Find the last two tags that match the package pattern, sort them to get the latest 
+          # Find the last two tags that match the package pattern, sort them to get the latest
           TAGS=$(git tag | grep "^${{ github.event.inputs.package }}-v" | sort -rV | head -n 1)
           LAST_TAG=$(echo "$TAGS" | sed -n '1p')
           echo "LAST_TAG=${LAST_TAG}"
           echo "LAST_TAG=${LAST_TAG}" >> $GITHUB_ENV
+
       
       - name: Generate Changelog
         id: changelog
@@ -104,7 +104,8 @@ jobs:
               "tag_resolver": {
                   "method": "semver",
                   "filter": {
-                      "pattern": "${{ env.LAST_TAG }}",
+                      "pattern": "${{ github.event.inputs.package }}-(.+)",
+                      "flags": "gu"
                   }
               },
               "base_branches": [
