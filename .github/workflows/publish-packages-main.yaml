@@ -105,7 +105,7 @@ jobs:
                   "main"
               ]
             }
-          fromTag: "${{ env.LAST_TAG }}"
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
