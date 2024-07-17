@@ -61,35 +61,87 @@ jobs:
         id: changelog
         uses: mikepenz/release-changelog-builder-action@v4
         with:
-          configuration: "./configuration.json"
-          # configurationJson: |
-          #   {
-          #     "template": "#{{CHANGELOG}}",
-          #     "pr_template": "- #{{TITLE}}\n - PR: ##{{NUMBER}}",
-          #     "empty_template": "- no changes",
-          #      "categories": 
-          #      [
-          #       {
-          #       "rules":
-          #         [
-          #           {
-          #             "pattern": "${{ github.event.inputs.package }}",
-          #             "on_property": "labels",
-          #           },
-          #           {
-          #             "pattern": "merged",
-          #             "on_property": "status",
-          #           }
-          #         ]
-          #         }
-          #       ],
-          #     "tag_resolver":{
-          #       "filter": {
-          #           "pattern": "${{ github.event.inputs.package }}-(.+)",
-          #           "flags": "gu"
-          #         }
-          #       }
-          #   }
+          configurationJson: |
+            {
+              "categories": [
+                  {
+                      "title": "## 🚀 components",
+                      "labels": [
+                          "components"
+                      ]
+                  },
+                  {
+                      "title": "## 🐛 Fixes",
+                      "labels": [
+                          "fix"
+                      ]
+                  },
+                  {
+                      "key": "tests",
+                      "title": "## 🧪 Tests",
+                      "labels": [
+                          "test"
+                      ]
+                  },
+                  {
+                      "title": "## 🧪 Tests and some 🪄 Magic",
+                      "labels": [
+                          "test",
+                          "components"
+                      ],
+                      "exhaustive": true,
+                      "exhaustive_rules": "false",
+                      "empty_content": "- no matching PRs",
+                      "rules": [
+                          {
+                              "pattern": "${{ github.event.inputs.package }}",
+                              "on_property": "labels"
+                          },
+                          {
+                              "pattern": "merged",
+                              "on_property": "status"
+                          }
+                      ]
+                  }
+              ],
+              "sort": {
+                  "order": "ASC",
+                  "on_property": "mergedAt"
+              },
+              "template": "#{{CHANGELOG}}\n\n<details>\n<summary>Uncategorized</summary>\n\n#{{UNCATEGORIZED}}\n</details>",
+              "pr_template": "- #{{TITLE}}\n   - PR: ##{{NUMBER}}",
+              "empty_template": "- no changes",
+              "label_extractor": [
+                  {
+                      "pattern": "(.) (.+)",
+                      "target": "$1",
+                      "flags": "gu"
+                  },
+                  {
+                      "pattern": "\\[Issue\\]",
+                      "on_property": "title",
+                      "method": "match"
+                  }
+              ],
+              "transformers": [
+                  {
+                      "pattern": "[\\-\\*] (\\[(...|TEST|CI|SKIP)\\])( )?(.+?)\n(.+?[\\-\\*] )(.+)",
+                      "target": "- $4\n  - $6"
+                  }
+              ],
+              "max_tags_to_fetch": 200,
+              "max_back_track_time_days": 365,
+              "tag_resolver": {
+                  "method": "semver",
+                  "filter": {
+                      "pattern": "${{ github.event.inputs.package }}-(.+)",
+                      "flags": "gu"
+                  }
+              },
+              "base_branches": [
+                  "dev"
+              ]
+            }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
