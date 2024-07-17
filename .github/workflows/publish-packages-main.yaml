@@ -103,8 +103,7 @@ jobs:
               "tag_resolver": {
                   "method": "semver",
                   "filter": {
-                      "pattern": "${{ github.event.inputs.package }}-(.+)",
-                      "flags": "gu"
+                      "pattern": "${{ env.LAST_TAG }}",
                   }
               },
               "base_branches": [
