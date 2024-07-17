@@ -13,3 +13,5 @@ or
 ```
 % npm install @dolthub/proto-resource-utils
 ```
+
+resource-utils change
