@@ -106,7 +106,7 @@ jobs:
               ]
             }
           fromTag: "${{ env.LAST_TAG }}"
-          toTag: "HEAD"
+          toTag: "main"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
