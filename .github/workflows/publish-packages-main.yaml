@@ -61,34 +61,35 @@ jobs:
         id: changelog
         uses: mikepenz/release-changelog-builder-action@v4
         with:
-          configurationJson: |
-            {
-              "template": "#{{CHANGELOG}}",
-              "pr_template": "- #{{TITLE}}\n - PR: ##{{NUMBER}}",
-              "empty_template": "- no changes",
-               "categories": 
-               [
-                {
-                "rules":
-                  [
-                    {
-                      "pattern": "${{ github.event.inputs.package }}",
-                      "on_property": "labels",
-                    },
-                    {
-                      "pattern": "merged",
-                      "on_property": "status",
-                    }
-                  ]
-                  }
-                ],
-              "tag_resolver":{
-                "filter": {
-                    "pattern": "${{ github.event.inputs.package }}-(.+)",
-                    "flags": "gu"
-                  }
-                }
-            }
+          configuration: "./configuration.json"
+          # configurationJson: |
+          #   {
+          #     "template": "#{{CHANGELOG}}",
+          #     "pr_template": "- #{{TITLE}}\n - PR: ##{{NUMBER}}",
+          #     "empty_template": "- no changes",
+          #      "categories": 
+          #      [
+          #       {
+          #       "rules":
+          #         [
+          #           {
+          #             "pattern": "${{ github.event.inputs.package }}",
+          #             "on_property": "labels",
+          #           },
+          #           {
+          #             "pattern": "merged",
+          #             "on_property": "status",
+          #           }
+          #         ]
+          #         }
+          #       ],
+          #     "tag_resolver":{
+          #       "filter": {
+          #           "pattern": "${{ github.event.inputs.package }}-(.+)",
+          #           "flags": "gu"
+          #         }
+          #       }
+          #   }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
