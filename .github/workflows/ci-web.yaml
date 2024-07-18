@@ -38,11 +38,10 @@ jobs:
           labels: ${{ toJSON(github.event.pull_request.labels) }}
         run: |
           if: github.event.pull_request.labels[0] == null; then
-            echo "${{ github.event.pull_request.labels }}"
             echo "PR does not have any labels. Failing the job."
             exit 1
           else
-            echo "${{ github.event.pull_request.labels }}"
+            echo "${{ github.event.pull_request.labels[0] }}"
             echo "PR has labels. Continuing the job."
           fi
 
