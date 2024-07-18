@@ -37,14 +37,13 @@ jobs:
         env:
           labels: ${{ toJSON(github.event.pull_request.labels) }}
         run: |
-          label_length=$(echo $labels | jq '. | length')
-          if [[ $label_length -eq 0 ]]; then
+          if [ "$(echo $LABELS | jq length)" -eq 0 ]; then
             echo "PR does not have any labels. Failing the job."
             exit 1
           else
             echo "PR has labels. Continuing the job."
           fi
-          
+
       - name: Install and run CI
         working-directory: ./
         run: |
