@@ -97,7 +97,7 @@ jobs:
                   "on_property": "mergedAt"
               },
               "template": "#{{CHANGELOG}}\n",
-              "pr_template": "- #{{NUMBER}}: #{{TITLE}}\n   - #{{BODY}}",
+              "pr_template": "- [#{{NUMBER}}](#{{URL}}): #{{TITLE}}\n   - #{{BODY}}",
               "empty_template": "- no changes",
               "max_tags_to_fetch": 200,
               "max_back_track_time_days": 365,
