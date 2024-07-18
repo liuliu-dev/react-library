@@ -32,22 +32,24 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install and run CI
-        working-directory: ./
-        run: |
-          yarn install --immutable
-          yarn ci
-
       - name: Check if PR is labeled
         if: github.event.pull_request.draft == false && github.event.pull_request.user.login != 'dependabot' && github.event.pull_request.user.login != 'github-actions'
+        env:
+          labels: ${{ toJSON(github.event.pull_request.labels) }}
         run: |
-          labels=$(jq -r '.pull_request.labels | length' <<< "${{ toJSON(github.event) }}")
-          if [[ $labels -eq 0 ]]; then
+          label_length=$(echo $labels | jq '. | length')
+          if [[ $label_length -eq 0 ]]; then
             echo "PR does not have any labels. Failing the job."
             exit 1
           else
             echo "PR has labels. Continuing the job."
           fi
+
+      - name: Install and run CI
+        working-directory: ./
+        run: |
+          yarn install --immutable
+          yarn ci
 
       - name: Publish to Chromatic
         if: steps.filter.outputs.components == 'true' && github.event.pull_request.draft == false && !startsWith(github.event.pull_request.head.ref, 'dependabot/')
