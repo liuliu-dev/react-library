@@ -64,7 +64,15 @@ jobs:
           echo "LAST_TAG=${LAST_TAG}"
           echo "LAST_TAG=${LAST_TAG}" >> $GITHUB_ENV
 
-      
+      - name: Set PR Template
+        id: set_pr_template
+        run: |
+          if [ -n "${{ github.event.pull_request.body }}" ]; then
+            echo "::set-output name=pr_template::* [#{{NUMBER}}](#{{URL}}): #{{TITLE}}\n  * #{{BODY}}"
+          else
+            echo "::set-output name=pr_template::* [#{{NUMBER}}](#{{URL}}): #{{TITLE}}"
+          fi
+
       - name: Generate Changelog
         id: changelog
         uses: mikepenz/release-changelog-builder-action@v4
@@ -97,7 +105,7 @@ jobs:
                   "on_property": "mergedAt"
               },
               "template": "#{{CHANGELOG}}\n",
-              "pr_template": "* [#{{NUMBER}}](#{{URL}}): #{{TITLE}}\n  * #{{BODY}}",
+              "pr_template": "${{ steps.set_pr_template.outputs.pr_template }}",
               "empty_template": "- no changes",
               "max_tags_to_fetch": 200,
               "max_back_track_time_days": 365,
