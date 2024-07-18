@@ -14,4 +14,4 @@ or
 % npm install @dolthub/proto-resource-utils
 ```
 
-test fromTag
+test pr description
