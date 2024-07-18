@@ -37,7 +37,7 @@ jobs:
         env:
           labels: ${{ toJSON(github.event.pull_request.labels) }}
         run: |
-          if [ "$(echo $LABELS | jq length)" -eq 0 ]; then
+          if [ "$(echo $LABELS | jq '. | length')" -eq 0 ]; then
             echo "PR does not have any labels. Failing the job."
             exit 1
           else
