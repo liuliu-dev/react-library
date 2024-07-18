@@ -97,7 +97,7 @@ jobs:
                   "on_property": "mergedAt"
               },
               "template": "#{{CHANGELOG}}\n",
-              "pr_template": "- PR: ##{{NUMBER}}: #{{TITLE}}\n   - #{{BODY}}",
+              "pr_template": "- ##{{NUMBER}}: #{{TITLE}}\n   - #{{BODY}}",
               "empty_template": "- no changes",
               "max_tags_to_fetch": 200,
               "max_back_track_time_days": 365,
@@ -128,19 +128,19 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Enable Corepack before setting up Node
-        run: corepack enable
+      # - name: Enable Corepack before setting up Node
+      #   run: corepack enable
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          registry-url: 'https://registry.npmjs.org'
+      # - uses: actions/setup-node@v4
+      #   with:
+      #     node-version: '18'
+      #     registry-url: 'https://registry.npmjs.org'
 
-      - name: Install and run build
-        working-directory: ./
-        run: |
-          yarn install --immutable
-          yarn dbuild
+      # - name: Install and run build
+      #   working-directory: ./
+      #   run: |
+      #     yarn install --immutable
+      #     yarn dbuild
 
       - name: Create Release
         id: create_release
