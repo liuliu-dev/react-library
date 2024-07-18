@@ -1,13 +1,9 @@
 name: Run CI
 on:
   pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
     paths:
       - '**'
-  label:
-    types: 
-      - created
-      - edited
-      - deleted
   workflow_dispatch:
 
 concurrency:
