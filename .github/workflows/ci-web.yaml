@@ -34,9 +34,10 @@ jobs:
 
       - name: Check if PR is labeled
         if: github.event.pull_request.draft == false && github.event.pull_request.user.login != 'dependabot' && github.event.pull_request.user.login != 'github-actions'
+        env:
+          labels: ${{ toJSON(github.event.pull_request.labels) }}
         run: |
-          if: github.event.pull_request.labels[0] == null; then
-            echo "${{ github.event.pull_request.labels }}"
+          if [ "$(echo $LABELS | jq length)" -eq 0 ]; then
             echo "PR does not have any labels. Failing the job."
             exit 1
           else
