@@ -34,17 +34,15 @@ jobs:
 
       - name: Check if PR is labeled
         if: github.event.pull_request.draft == false && github.event.pull_request.user.login != 'dependabot' && github.event.pull_request.user.login != 'github-actions'
-        env:
-          labels: ${{ toJSON(github.event.pull_request.labels) }}
         run: |
-          label_length=$(echo $labels | jq '. | length')
-          if [[ $label_length -eq 0 ]]; then
+          if: github.event.pull_request.labels[0] == null; then
+            echo "${{ github.event.pull_request.labels }}"
             echo "PR does not have any labels. Failing the job."
             exit 1
           else
             echo "PR has labels. Continuing the job."
           fi
-          
+
       - name: Install and run CI
         working-directory: ./
         run: |
