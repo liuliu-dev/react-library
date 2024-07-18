@@ -4,7 +4,10 @@ on:
     paths:
       - '**'
   label:
-    types: [created, edited]
+    types: 
+      - created
+      - edited
+      - deleted
   workflow_dispatch:
 
 concurrency:
