@@ -38,6 +38,17 @@ jobs:
           yarn install --immutable
           yarn ci
 
+      - name: Check if PR is labeled
+        if: github.event.pull_request.draft == false && github.event.pull_request.user.login != 'dependabot' && github.event.pull_request.user.login != 'github-actions'
+        run: |
+          labels=$(jq -r '.pull_request.labels | length' <<< "${{ toJSON(github.event) }}")
+          if [[ $labels -eq 0 ]]; then
+            echo "PR does not have any labels. Failing the job."
+            exit 1
+          else
+            echo "PR has labels. Continuing the job."
+          fi
+
       - name: Publish to Chromatic
         if: steps.filter.outputs.components == 'true' && github.event.pull_request.draft == false && !startsWith(github.event.pull_request.head.ref, 'dependabot/')
         uses: chromaui/action@latest
