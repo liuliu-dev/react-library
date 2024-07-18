@@ -33,16 +33,10 @@ jobs:
           node-version: '18'
 
       - name: Check if PR is labeled
-        if: github.event.pull_request.draft == false && github.event.pull_request.user.login != 'dependabot' && github.event.pull_request.user.login != 'github-actions'
-        env:
-          labels: ${{ toJSON(github.event.pull_request.labels) }}
+        if: github.event.pull_request.draft == false && github.event.pull_request.user.login != 'dependabot' && github.event.pull_request.user.login != 'github-actions' && github.event.pull_request.labels[0] == null
         run: |
-          if [ "$(echo $LABELS | jq '. | length')" -eq 0 ]; then
-            echo "PR does not have any labels. Failing the job."
-            exit 1
-          else
-            echo "PR has labels. Continuing the job."
-          fi
+          echo "PR does not have any labels. Failing the job."
+          exit 1
 
       - name: Install and run CI
         working-directory: ./
